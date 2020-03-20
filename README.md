@@ -2,7 +2,7 @@
 
 ### English Instructions to build
 
-#### For this Build you will neeed you own google api key
+#### For this App you will neeed you own google api key
 
 - install node with npm
 
@@ -25,7 +25,7 @@ install react-navigation and dependencies
 
 ### Instruções em Português
 
-#### Para esta versão, você precisará da sua própria chave API do Google
+#### Para este aplicativo , você precisará da sua própria chave API do Google
 
 #### instalar:
 
