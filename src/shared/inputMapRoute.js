@@ -28,8 +28,7 @@ export default function InputMapRoute({originText, destinationText, setDestinati
 
 const styles = StyleSheet.create({
     button: {
-
-        width: width - 100,
+        width: width - 40,
         height: 40,
         backgroundColor: '#FFF',
         alignItems: 'center',
@@ -39,30 +38,20 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         marginBottom: 15,
         marginHorizontal: 20,
-
       },
-
       buttonText: {
-
         color: '#000',
         fontWeight: 'bold',
-
       },
-
       inputContainer: {
-
         width: '100%',
         maxHeight: 200,
-  
       },
-
       input: {
-
         width: width - 40,
         maxHeight: 200,
         backgroundColor: '#FFF',
         marginBottom: 15,
         marginHorizontal: 20,
-  
       },
 })

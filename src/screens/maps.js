@@ -7,7 +7,7 @@ import Geolocation from '@react-native-community/geolocation';
 import { PermissionsAndroid } from 'react-native';
 import InputMapRoute from '../shared/inputMapRoute'
 import globalStyles from '../styles/globalStyles'
-import GOOGLE_MAPS_APIKEY from '../key'
+import GOOGLE_MAPS_APIKEY from '../../api_key'
 
 
 export default function MapScreen() {

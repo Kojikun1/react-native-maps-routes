@@ -1,5 +1,5 @@
 import Geocoder from 'react-native-geocoding';
-import GOOGLE_MAPS_APIKEY from '../key';
+import GOOGLE_MAPS_APIKEY from '../../api_key';
 
 export default function handleButton({originText, destinationText, setRegion, region }){
 
