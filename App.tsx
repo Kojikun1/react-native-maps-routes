@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import MainContainer from './routes/mainDrawer'
+import MainContainer from './src/routes/mainDrawer'
 
 function App(){
   return (
@@ -11,3 +11,4 @@ function App(){
 
 
 export default App;
+
