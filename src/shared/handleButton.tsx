@@ -2,20 +2,22 @@ import Geocoder from 'react-native-geocoding';
 import GOOGLE_MAPS_APIKEY from '../../api_key';
 import { Alert } from 'react-native';
 
+import { Region } from '../screens/maps';
+
 interface Props {
-    originText: string,
-    destinationText: string,
-    region: any,
-    setRegion: any
+    origin: string,
+    destination: string,
+    region: Region,
+    setRegion: (val: Region) => void
 }
 
-const handleButton = <T extends Props>({originText, destinationText, setRegion, region }: T) =>{
+const handleButton = <T extends Props>({origin, destination, setRegion, region }: T) =>{
 
-    if(originText != '') {
+    if(origin != '') {
 
         Geocoder.init(GOOGLE_MAPS_APIKEY); // use a valid API key
         
-        Geocoder.from(originText)
+        Geocoder.from(origin)
             .then(json => {
                 let location = json.results[0].geometry.location;
                 console.log("Location origin:", location);
@@ -29,11 +31,11 @@ const handleButton = <T extends Props>({originText, destinationText, setRegion, 
         Alert.alert("Digite a origem ! ")
     }
 
-    if(destinationText != '') {
+    if(destination != '') {
 
         Geocoder.init(GOOGLE_MAPS_APIKEY); // use a valid API key
 
-        Geocoder.from(destinationText)
+        Geocoder.from(destination)
         .then(json => {
             let location = json.results[0].geometry.location;
             console.log("Location Destination", location);

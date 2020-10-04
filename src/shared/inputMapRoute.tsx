@@ -1,33 +1,35 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import {StyleSheet,View, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 const { height, width } = Dimensions.get('window');
 import handleButton from './handleButton';
 
+import { Region } from '../screens/maps';
+
 interface Props {
-    originText: string,
-    setOriginText: (val: string) => void,
-    destinationText: string,
-    setDestinationText: (val: string) => void,
-    region: any,
-    setRegion: any
+    region: Region,
+    setRegion: (val: Region) => void
 }
 
-const InputMapRoute: React.FC<Props> = ({originText, setOriginText, destinationText, setDestinationText,region ,setRegion }) => {
+const InputMapRoute: React.FC<Props> = ({region , setRegion }) => {
+      
+     const [origin,setOrigin] = useState('');
+     const [destination,setDestination] = useState('');
+
      return(
          <View>
              <TextInput
                  style={styles.input}
-                 onChangeText={(val) => { setOriginText(val) } }
+                 onChangeText={setOrigin}
                  placeholder='Origem'
-                 value={originText}
+                 value={origin}
              />
              <TextInput
                  style={styles.input}
-                 onChangeText={(val) => { setDestinationText(val) }}
+                 onChangeText={setDestination}
                  placeholder='Destino'
-                 value={destinationText}
+                 value={destination}
              />
-             <TouchableOpacity style={styles.button} onPress={() => handleButton({originText,destinationText,setRegion,region}) }>
+             <TouchableOpacity style={styles.button} onPress={() => handleButton({origin,destination,setRegion,region}) }>
                  <Text style={styles.buttonText}>Buscar Rota</Text>
              </TouchableOpacity>
          </View>

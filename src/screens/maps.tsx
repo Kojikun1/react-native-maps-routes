@@ -21,21 +21,11 @@ export interface Region {
 }
 
 export default function MapScreen() {
-    let [region,setRegion] = useState({
+    let [region,setRegion] = useState<Region>({
         origin: { latitude: -23.55643424, longitude: -46.63638353 },
         destination: { latitude: -23.55644342, longitude: -46.63638353 },
-        originText: '',
-        destinationText: ''
     });
     
-    function setOriginText(val: string){
-        setRegion({...region,originText: val});
-        console.log(region);
-    }
-    function setDestinationText(val: string){
-        setRegion({...region,destinationText: val});
-        console.log(region);
-    }
     // function to get access to the Currenty location // 
     function getLocation() {
         try {
@@ -146,10 +136,6 @@ export default function MapScreen() {
             </MapView>
             {/*input component for set and get state data origin and destination text */}
             <InputMapRoute
-                   setOriginText={setOriginText}
-                   setDestinationText={setDestinationText}
-                   originText={region.originText}
-                   destinationText={region.destinationText}
                    setRegion={setRegion}
                    region={region}
            />
