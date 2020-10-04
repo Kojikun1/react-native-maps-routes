@@ -1,8 +1,11 @@
 import React from 'react';
 import {StyleSheet, Image, TouchableOpacity } from 'react-native';
 
+interface Props {
+    onPress: () => void
+}
 
-export default function MapImage({onPress}){
+const MapImage: React.FC<Props> =({onPress}) => {
     return (
         <TouchableOpacity onPress={onPress}>
              <Image
@@ -19,3 +22,5 @@ const styles = StyleSheet.create({
         height: 150,
     }
 })
+
+export default MapImage

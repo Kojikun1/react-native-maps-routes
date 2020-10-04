@@ -3,7 +3,16 @@ import {StyleSheet,View, Text, TextInput, TouchableOpacity, Dimensions } from 'r
 const { height, width } = Dimensions.get('window');
 import handleButton from './handleButton';
 
-export default function InputMapRoute({originText, destinationText, setDestinationText, setOriginText,setRegion,region }){
+interface Props {
+    originText: string,
+    setOriginText: (val: string) => void,
+    destinationText: string,
+    setDestinationText: (val: string) => void,
+    region: any,
+    setRegion: any
+}
+
+const InputMapRoute: React.FC<Props> = ({originText, setOriginText, destinationText, setDestinationText,region ,setRegion }) => {
      return(
          <View>
              <TextInput
@@ -25,6 +34,7 @@ export default function InputMapRoute({originText, destinationText, setDestinati
      )
 }
 
+export default InputMapRoute;
 
 const styles = StyleSheet.create({
     button: {

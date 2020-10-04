@@ -14,7 +14,7 @@ export default function HomeStack(){
             <Stack.Screen
                name='Home'
                component={Home}
-               options={({navigation}) => PageHeader({navigation,title:"Home"})}
+               options={({navigation}) => PageHeader({ navigation, title: "Home" })}
             />
             <Stack.Screen
                name='MapScreen'

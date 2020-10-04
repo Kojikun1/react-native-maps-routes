@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import  MapView  from 'react-native-maps'
+import { View, Text, Keyboard, TouchableWithoutFeedback,Alert } from 'react-native';
+import  MapView, { Marker, Callout } from 'react-native-maps'
 import  MapViewDirections from 'react-native-maps-directions';
 import getDirections from 'react-native-google-maps-directions';
 import Geolocation from '@react-native-community/geolocation';
@@ -9,6 +9,16 @@ import InputMapRoute from '../shared/inputMapRoute'
 import globalStyles from '../styles/globalStyles'
 import GOOGLE_MAPS_APIKEY from '../../api_key'
 
+export interface Region {
+    origin: {
+        latitude: number,
+        longitude: number
+    },
+    destination: {
+        latitude: number,
+        longitude: number
+    }
+}
 
 export default function MapScreen() {
     let [region,setRegion] = useState({
@@ -18,27 +28,32 @@ export default function MapScreen() {
         destinationText: ''
     });
     
-    function setOriginText(val){
+    function setOriginText(val: string){
         setRegion({...region,originText: val});
         console.log(region);
     }
-    function setDestinationText(val){
+    function setDestinationText(val: string){
         setRegion({...region,destinationText: val});
         console.log(region);
     }
     // function to get access to the Currenty location // 
     function getLocation() {
-        Geolocation.getCurrentPosition((position) => {
-            let newOrigin = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            }
-            console.log('new origin');
-            console.log(newOrigin);
-            setRegion({...region,origin: newOrigin,});
-        },(err) => {
-            console.log('Error', err);
-        },{enableHighAccuracy: true, timeout: 20000, maximumAge: 1000} )
+        try {
+            Geolocation.getCurrentPosition((position) => {
+                let newOrigin = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                }
+                console.log('new origin');
+                console.log(newOrigin);
+                setRegion({...region,origin: newOrigin,});
+            },(err) => {
+                console.log('Error', err);
+            },{enableHighAccuracy: true, timeout: 20000, maximumAge: 1000} )
+        } catch (error) {
+            console.log(error);
+            Alert.alert("Error Occurred Failure to Get Location");
+        }
     }
     // async function to request the android access to the location //
     async function requestLocationPermission(){
@@ -46,8 +61,9 @@ export default function MapScreen() {
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                 {
-                    'title': "App Location Permission",
-                    'message': 'Maps App needs access to your map so you can be navigated'
+                    title: "App Location Permission",
+                    message: 'Maps App needs access to your map so you can be navigated',
+                    buttonPositive: ""
                 }
             );
             if(granted === PermissionsAndroid.RESULTS.GRANTED){
@@ -62,7 +78,7 @@ export default function MapScreen() {
         }
     }
     useEffect( () => {
-         console.log('usEffect start');
+         console.log('useEffect start');
          let isGranted = requestLocationPermission();
 
         if(isGranted){
@@ -73,8 +89,7 @@ export default function MapScreen() {
     },[])
     function handleGetGoogleMapDirections(){
     
-        const data = {
-    
+        const data = {  
             source: region.origin,
             destination: region.destination,
             params: [
@@ -83,17 +98,16 @@ export default function MapScreen() {
                   value: "driving"
                 }
             ]
-            
         };
-    
-        getDirections(data)
+
+        getDirections(data);
     
       };
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={globalStyles.mapContainer}>
             <MapView
-                ref={map => mapView = map}
+                //ref={(map) => this.mapView = map}
                 style={globalStyles.map}
 
                 region={{
@@ -101,34 +115,33 @@ export default function MapScreen() {
                         longitude: (region.origin.longitude + region.destination.longitude) / 2,
                         latitudeDelta: Math.abs(region.origin.latitude - region.destination.latitude) + Math.abs(region.origin.latitude - region.destination.latitude) * .1,
                         longitudeDelta: Math.abs(region.origin.longitude - region.destination.longitude) + Math.abs(region.origin.longitude - region.destination.longitude) * .1,
-
                     }}
                 loadingEnabled={true}
-                toolbarEnable={true}
+                toolbarEnabled={true}
                 zoomControlEnabled={true}
             >
-                <MapView.Marker
+                <Marker
                 coordinate={region.destination}
                 >
-                    <MapView.Callout onPress={handleGetGoogleMapDirections}>
+                    <Callout onPress={handleGetGoogleMapDirections}>
                         <Text>Press to Get Direction</Text>
-                    </MapView.Callout>
-                </MapView.Marker>
-                <MapView.Marker
+                    </Callout>
+                </Marker>
+                <Marker
                      coordinate={region.origin}
                 >
-                    <MapView.Callout>
+                    <Callout>
                         <Text>Voce esta aqui</Text>
-                    </MapView.Callout>
+                    </Callout>
                      
-                </MapView.Marker>
+                </Marker>
                <MapViewDirections 
                     origin={region.origin}
                     destination={region.destination}
                     apikey={GOOGLE_MAPS_APIKEY}
                     strokeWidth={3}
                     strokeColor="hotpink"
-                    onError={()=> alert('Rota não Encontrada')}
+                    onError={()=> Alert.alert('Rota não Encontrada')}
                />
             </MapView>
             {/*input component for set and get state data origin and destination text */}
